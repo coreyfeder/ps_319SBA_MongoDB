@@ -1,0 +1,16 @@
+{
+  "name": "ps_319sba_mongodb",
+  "version": "1.0.0",
+  "description": "https://www.canva.com/design/DAFrigp0V5U/76Et4j_4KjlIyGSiv6gNsw/view https://perscholas.instructure.com/courses/1923/assignments/355838 b. 2024-03-12",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0"
+  }
+}

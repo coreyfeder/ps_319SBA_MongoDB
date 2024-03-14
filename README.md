@@ -25,7 +25,7 @@ Okay, resurrect instructions for setup, since I can't find them.
 0. add an index.js (hello world is fine)
 0. 
 Hey! Found instrux at ps_rest-express/README.md.
-* in package.json, get rid of `test` and add `"start": "nodemon index.js"
+* in package.json, get rid of `test` and add `"start": "nodemon index.js"`
 * if necessary: add a `.gitignore`, and add `node_modules` to it
 
 OFFS. Where's my package.json? Where's my node_modules/?
