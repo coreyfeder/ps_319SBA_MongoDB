@@ -1,79 +1,78 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000; // try 5000 if any troubles
-const host = "localhost";
+const router = express.Router();
+// endpoint
 const protocol = "http";
+const host = "localhost";
+const port = 3000; // try 5000 if any troubles
+const prefix = "api"
+const baseurl = `${protocol}://${host}:${port}`
+const url = `${baseurl}/${prefix}`
 
-const url = `${protocol}://${host}:${port}/`
+
+// CONNECTION TO DB
+
+// MIDDLEWARE
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
+
+// bounce anything hitting the base without the prefix
+app.all("/", (req, res) => {
+    res.status(403);
+    res.json({ error: `Public API endpoints are available at: ${url}` })
+});
+
+// ROUTER
+
+// a middleware function with no mount path => code executed for every request
+router.use((req, res, next) => {
+    console.log([
+            Date.now(), 
+            'request',
+            req.method, 
+            req.originalUrl,
+        ].join(' : '))
+    next()
+    /* oooh, can I postlog, to include the response code? test: will control come back to this process after calling `next()`? */ 
+    console.log([
+            Date.now(), 
+            'response', 
+            req.method,  // why doesn't res.method have this?
+            res.statusCode,  // this doesn't work for some errors?
+            res.statusMessage,  // blanks?
+            // res.json(),  // friggin' "[object Object]" again. Even `.json()` doesn't know it's JSON?
+            JSON.stringify(res.json()),  // goddamn "[object Object]". Why doesn't `.json()` know it's JSON?
+        ].join(' : '))
+})
+
+
+// ROUTES
+
+// ...
+
+app.all((req, res) => {  // catch-all
+    console.error(err.stack);
+    res.status(404)
+    res.json({ error: `Resource not found. [AL2]` });
+})
+
+
+// ERROR HANDLING / endware
+
+app.use((err, req, res, next) => {
+    // handle 404's
+    console.error(err.stack);
+    res.status(404)
+    res.json({ error: `Resource not found. [US]` });
+});
+
+
+
+// GO / LISTEN
 
 app.listen(port, () => {
     console.log(`Server listening at:  ${url}`);
 });
-
-/* ----- */
-
-app.get("/", (req, res) => {
-    res.send("Hello Express!");
-});
-
-app.get("/express", (req, res) => {
-    res.send("Creating routes with Express is simple!");
-});
-
-app.get("/user", (req, res) => {
-    res.send("Received a GET request for user!");
-});
-
-app.get("/user/:userid", (req, res) => {
-    res.send(`Ah, want to know about user ${req.params.userid}, eh?`);
-});
-
-app.get("/user/:userid/profile", (req, res) => {
-    res.send(`${req.params.userid} is great. We laugh. We cry. Better than <i>Cats</i>.`);
-});
-
-app.get("/user/:userid/profile/:data", (req, res) => {
-    res.send(`Oh no, that'd be an invasion of provacy. ${req.params.userid} probably doesn't want ${req.params.data} out in the open.`);
-});
-
-app.get("/user/:userid/profile/:data", (req, res) => {
-    res.send(
-      `Navigated to the user profile page for: ${req.params.userid}, with the data: ${req.params.data}.`
-    );
-});
-
-
-app.post("/user", (req, res) => {
-    res.send("Received a POST request for user!");
-});
-
-app.patch("/user", (req, res) => {
-    res.send("Received a PATCH request for user! If only it were that easy, eh?");
-});
-
-app.delete("/user", (req, res) => {
-    res.send("HAHA! It actually IS that easy! But don't do that. People, don't do murders.");
-});
-
-app.get("/*", (req, res) => {
-    res.send(`Hello! You have reached the catch-all endpoint!`);
-    // console.group("Request")
-    // console.log(req)
-    // console.groupEnd()
-    // console.group("Response")
-    // console.log(res)
-    // console.groupEnd()
-
-    // trying to get message to browser console
-    // somepathto.userconsole(`Request:\n${req}\n\nResponse:\n${res}`);
-    let test = "Did this show up in the browser console?"
-    // trying:
-    //  res.send(test) [no]
-    //  res.console(test)
-    //  req.send(test)
-    //  req.console(test)
-    //  something .use()
-    //  error pathways
-});
-
