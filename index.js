@@ -1,12 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require("express")
 
-const app = express();
-const router = express.Router();
+const app = express()
+const router = express.Router()
+
 // endpoint
-const protocol = "http";
-const host = "localhost";
-const port = 3000; // try 5000 if any troubles
+const protocol = "http"
+const host = "localhost"
+const port = 3000  // try 5000 if any troubles
 const prefix = "api"
 const baseurl = `${protocol}://${host}:${port}`
 const url = `${baseurl}/${prefix}`
@@ -14,16 +14,12 @@ const url = `${baseurl}/${prefix}`
 
 // CONNECTION TO DB
 
+
 // MIDDLEWARE
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ extended: true }));
+app.use(express.json())
 
-// bounce anything hitting the base without the prefix
-app.all("/", (req, res) => {
-    res.status(403);
-    res.json({ error: `Public API endpoints are available at: ${url}` })
-});
+
 
 // ROUTER
 
@@ -51,24 +47,52 @@ router.use((req, res, next) => {
 
 // ROUTES
 
-// ...
-
-app.all((req, res) => {  // catch-all
-    console.error(err.stack);
-    res.status(404)
-    res.json({ error: `Resource not found. [AL2]` });
-})
+app.route('/name_of_your_endpoint')
+    .all((req, res, next) => {
+        // code in this section will be executed 
+        // no matter which HTTP verb was used
+    })
+    .get((req, res, next) => {
+        // GET = change nothing, just hand back information
+    })
+    .post((req, res, next) => {
+        // POST = insert something new
+    })
+    /* 
+    .patch((req, res, next) => {
+        // PATCH = update part of an existing thing
+    })
+    .put((req, res, next) => {
+        // PUT = replace an existing thing
+    })
+     */
+    .delete((req, res, next) => {
+        // DELETE = remove some data
+    })
 
 
 // ERROR HANDLING / endware
+//   If a call made it this far, something was wrong with it.
 
-app.use((err, req, res, next) => {
-    // handle 404's
-    console.error(err.stack);
-    res.status(404)
-    res.json({ error: `Resource not found. [US]` });
+// bounce anything hitting the base without the prefix
+app.all("/", (req, res) => {
+    res.status(403);
+    res.json({ error: `Public API endpoints are available at: ${url}` })
 });
 
+// "anything else"
+app.all((req, res) => {
+    console.error(err.stack);
+    res.status(404).json({ error: `Resource not found.` });
+})
+/* 
+    Is there any difference between 
+        app.all((req, res) => ...
+    and 
+        app.use((err, req, res, next) => ...
+    ?  Are they both catch-alls? Are there more ways? Is there a "best" way?
+ */
+// this is functionally identical to `app.all((req, res) => ...`, right?
 
 
 // GO / LISTEN
