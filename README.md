@@ -3,12 +3,6 @@ https://www.canva.com/design/DAFrigp0V5U/76Et4j_4KjlIyGSiv6gNsw/view
 https://perscholas.instructure.com/courses/1923/assignments/355838
 b. 2024-03-12
 
-+ Remember: skip PUT/PATCH.
-
-
-
-
-
 
 ## Ongoing notes
 Why was it so much harder to create a repo without a template?
@@ -29,4 +23,14 @@ Hey! Found instrux at ps_rest-express/README.md.
 * if necessary: add a `.gitignore`, and add `node_modules` to it
 
 OFFS. Where's my package.json? Where's my node_modules/?
+It gave succeessful result messages, so it _thinks_ it satisfied the command. Why would it think that?
+[...]
+Looks like I had somehow `npm init`-ed my home directory. I suspect `npm` assumes it doesn't need to `init` the subdirectory of an `init`ed folder.
+Deleted all those files, tried again...success!
+
+## Endpoints
+Ah, shit. Abstract, "do whatever you want" content...
+
+Okay, let's be generic. Use the sample data, or else I'll be waffling forever. _Again._
+
 

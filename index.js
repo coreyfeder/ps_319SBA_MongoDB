@@ -1,9 +1,10 @@
 const express = require("express")
+// const fs = require('fs')
 
 const app = express()
 const router = express.Router()
 
-// endpoint
+// this endpoint
 const protocol = "http"
 const host = "localhost"
 const port = 3000  // try 5000 if any troubles
@@ -14,11 +15,48 @@ const url = `${baseurl}/${prefix}`
 
 // CONNECTION TO DB
 
+// MongoDB
+const mongoAppId = 0
+const mongoApiVersion = 0
+const mongoBaseUrlGlobal = `https://data.mongodb-api.com/app/${"<App ID>"}/endpoint/data/${"<API_Version>"}`
+const mongoBaseUrlLocal = `https://${"<Region>"}.${"<Cloud>"}.data.mongodb-api.com/app/${"<App ID>"}/endpoint/data/${"<API Version>"}`
+const mongoDataSource
+const mongoDatabase
+const mongoCollection
+const mongoFilter
+const mongoProjection
+const mongo
+/* 
+https://data.mongodb-api.com/app/myapp-abcde/endpoint/data/v1/action/insertOne
+https://data.mongodb-api.com/app/<App ID>/endpoint/data/<API Version>
+https://<Region>.<Cloud>.data.mongodb-api.com/app/<App ID>/endpoint/data/<API Version>
+https://data.mongodb-api.com/app/<App ID>/endpoint/data/<API Version>
+
+
+curl -s "https://data.mongodb-api.com/app/myapp-abcde/endpoint/data/v1/action/findOne" \
+  -X POST \
+  -H "Accept: application/json" \
+  -H "apiKey: TpqAKQgvhZE4r6AOzpVydJ9a3tB1BLMrgDzLlBLbihKNDzSJWTAHMVbsMoIOpnM6" \
+  -d '{
+    "dataSource": "mongodb-atlas",
+    "database": "sample_mflix",
+    "collection": "movies",
+    "filter": {
+      "title": "The Matrix"
+    }
+  }'
+
+Yiwen
+try fs.writeFile('./data/post.js', ...) 
+barles
+fs...that requires an import right?
+yes, fs = require('fs'), thanks @Yiwen !
+
+*/
 
 // MIDDLEWARE
 
 app.use(express.json())
-
 
 
 // ROUTER
